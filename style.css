@@ -1,99 +1,118 @@
-/* 🌤️ Weather Comfort Checker - Dark Animated Theme */
-/* Author: Futurinx | Modern UI Redesign */
+/* 🌤️ Weather Comfort Checker - Dark Animated Map BG Theme */
+/* Author: Futurinx | Modern Glassmorphic Redesign */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-  --bg-color: #0d1117;
-  --card-bg: #161b22;
+  --bg: #0d1117;
+  --glass: rgba(20, 25, 35, 0.6);
+  --border: rgba(255, 255, 255, 0.1);
   --accent: #00c6ff;
   --accent2: #0072ff;
-  --text-color: #e6edf3;
-  --muted-text: #9da5b4;
+  --text: #e6edf3;
+  --muted: #9da5b4;
   --success: #00ff9d;
-  --danger: #ff4d4d;
-  --warning: #ffc107;
-  --cold: #38bdf8;
   --hot: #f87171;
+  --cold: #38bdf8;
+  --wind: #ffc107;
+  --wet: #1d9bf0;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: radial-gradient(circle at top, #0d1117, #000);
-  color: var(--text-color);
-  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 40px 20px;
+  align-items: center;
 }
 
-.container {
+/* Fullscreen Map as Background */
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 800px;
-  background: var(--card-bg);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
+  height: 100%;
+  z-index: 0;
+  filter: brightness(0.4) blur(2px);
+}
+
+/* Frosted Glass Container */
+.container {
   position: relative;
-  overflow: hidden;
+  z-index: 10;
+  width: 90%;
+  max-width: 850px;
+  backdrop-filter: blur(25px);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 35px rgba(0, 200, 255, 0.1);
+  border-radius: 24px;
+  padding: 40px;
   animation: fadeIn 1.2s ease-in-out;
 }
 
+/* Subtle rotating gradient ring */
 .container::before {
   content: "";
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 180deg at 50% 50%, var(--accent), var(--accent2), var(--accent), transparent);
-  animation: spin 6s linear infinite;
-  opacity: 0.05;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent), transparent);
+  opacity: 0.08;
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+  z-index: -1;
 }
 
 @keyframes spin {
-  from { transform: rotate(0); }
+  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
 header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 header h1 {
-  font-size: 2rem;
   color: var(--accent);
   text-shadow: 0 0 10px var(--accent);
+  font-size: 2rem;
 }
 
 header p {
-  color: var(--muted-text);
-  font-size: 0.95rem;
+  color: var(--muted);
+  font-size: 1rem;
+  opacity: 0.8;
 }
 
-/* Select + Button */
+/* Form */
 .city-form {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin: 20px 0 30px;
+  margin-bottom: 25px;
   flex-wrap: wrap;
 }
 
 .city-form select {
   padding: 10px 14px;
   border-radius: 10px;
-  background: #1f2937;
-  color: var(--text-color);
-  border: 1px solid #30363d;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  border: 1px solid var(--border);
   font-size: 1rem;
   min-width: 60%;
   outline: none;
@@ -117,17 +136,16 @@ header p {
 
 .city-form button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 10px var(--accent);
+  box-shadow: 0 0 12px var(--accent);
 }
 
-/* Weather Card */
+/* Weather Info Card */
 .weather-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 20px;
   padding: 25px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(0, 200, 255, 0.05);
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.1);
   animation: slideUp 0.7s ease-in-out;
 }
 
@@ -136,11 +154,12 @@ header p {
   margin-bottom: 5px;
 }
 
-.weather-card .date {
+.date {
   font-size: 0.9rem;
-  color: var(--muted-text);
+  color: var(--muted);
 }
 
+/* Temperature Display */
 .temp-box {
   display: flex;
   justify-content: space-around;
@@ -149,10 +168,10 @@ header p {
 }
 
 .temp-box div {
-  background: #1e293b;
+  background: rgba(255, 255, 255, 0.05);
   padding: 10px 15px;
   border-radius: 12px;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .temp-box div:hover {
@@ -165,6 +184,7 @@ header p {
   font-weight: bold;
 }
 
+/* Weather Details Grid */
 .details {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -173,19 +193,25 @@ header p {
 }
 
 .details div {
-  background: #111827;
+  background: rgba(255, 255, 255, 0.04);
   padding: 10px;
   border-radius: 8px;
   font-size: 0.9rem;
+  transition: background 0.3s;
 }
 
+.details div:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Summary */
 .summary {
   margin: 20px 0;
   font-style: italic;
-  color: var(--muted-text);
+  color: var(--muted);
 }
 
-/* Comfort bar */
+/* Comfort Bar */
 .comfort {
   margin-top: 15px;
 }
@@ -199,7 +225,7 @@ header p {
 
 .bar {
   height: 12px;
-  background: #222;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -216,16 +242,8 @@ header p {
 .fill.comfort { background: var(--success); transform: scaleX(0.7); }
 .fill.hot { background: var(--hot); transform: scaleX(1); }
 .fill.cold { background: var(--cold); transform: scaleX(0.8); }
-.fill.wind { background: var(--warning); transform: scaleX(0.9); }
-.fill.wet { background: var(--accent2); transform: scaleX(0.6); }
-
-#map {
-  width: 100%;
-  height: 300px;
-  border-radius: 15px;
-  margin-top: 25px;
-  box-shadow: 0 0 15px rgba(0, 200, 255, 0.1);
-}
+.fill.wind { background: var(--wind); transform: scaleX(0.9); }
+.fill.wet { background: var(--wet); transform: scaleX(0.6); }
 
 /* Animations */
 @keyframes fadeIn {
@@ -243,12 +261,10 @@ header p {
   .container {
     padding: 25px;
   }
-
   .temp-box {
     flex-direction: column;
     gap: 10px;
   }
-
   .city-form select {
     min-width: 100%;
   }
