@@ -3,66 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌤️ Weather Comfort Checker</title>
+  <title>Weather Comfort Checker | Futurinx</title>
   <link rel="stylesheet" href="style.css" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <div class="background"></div>
+  <!-- Map Background -->
+  <div id="map"></div>
 
-  <header class="header">
-    <h1>🌤️ Weather Comfort Checker</h1>
-    <p>Check comfort levels for cities — with live animation & map!</p>
-  </header>
+  <!-- Frosted Glass Weather Container -->
+  <div class="container">
+    <header>
+      <h1>Weather Comfort Checker</h1>
+      <p>Select a city to view live conditions 🌤️</p>
+    </header>
 
-  <main class="main-container">
-    <!-- City Selector -->
-    <form id="cityForm" class="city-form">
-      <select id="citySelect"></select>
-      <button type="submit" class="glow-btn">Check Weather</button>
+    <form class="city-form" id="cityForm">
+      <select id="citySelect">
+        <option value="" disabled selected>🌍 Choose your location</option>
+      </select>
+      <button type="submit">Check</button>
     </form>
 
-    <!-- Weather Card -->
-    <div id="weatherCard" class="weather-card hidden">
-      <div class="card-header">
-        <h2 id="cityName"></h2>
-        <p id="date" class="date"></p>
-      </div>
-
+    <div id="weatherInfo" class="weather-card">
+      <h2>City Name</h2>
+      <p class="date">--</p>
       <div class="temp-box">
-        <div>Min<br><span id="tempMin"></span></div>
-        <div class="avg">Avg<br><span id="tempAvg"></span></div>
-        <div>Max<br><span id="tempMax"></span></div>
+        <div>🌡️ Min: --°C</div>
+        <div class="avg">Avg: --°C</div>
+        <div>🔥 Max: --°C</div>
       </div>
 
       <div class="details">
-        <div>💧 Humidity: <span id="humidity"></span>%</div>
-        <div>💨 Wind: <span id="wind"></span> m/s</div>
-        <div>🌧️ Rain: <span id="rain"></span> mm</div>
-        <div>🌤️ Sky: <span id="sky"></span></div>
+        <div>💨 Wind: -- km/h</div>
+        <div>💧 Humidity: --%</div>
+        <div>🌦️ Condition: --</div>
+        <div>🌅 Feels Like: --°C</div>
       </div>
 
-      <p id="summary" class="summary"></p>
+      <p class="summary">Weather summary will appear here...</p>
 
       <div class="comfort">
-        <span id="comfort"></span>
-        <div class="bar">
-          <div class="fill" id="comfortBar"></div>
-        </div>
+        <span>Comfort Level</span>
+        <div class="bar"><div class="fill comfort"></div></div>
       </div>
     </div>
-
-    <!-- Map Section -->
-    <div id="map" class="map"></div>
-  </main>
-
-  <footer class="footer">
-    <p>Designed with ❤️ — Responsive Animated Interface</p>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
