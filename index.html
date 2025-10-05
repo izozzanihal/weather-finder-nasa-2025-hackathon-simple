@@ -5,24 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌤️ Weather Comfort Checker</title>
   <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🌤️ Weather Comfort Checker</h1>
-      <p>Select a city to check today’s comfort level</p>
-    </header>
+  <div class="background"></div>
 
+  <header class="header">
+    <h1>🌤️ Weather Comfort Checker</h1>
+    <p>Check comfort levels for cities — with live animation & map!</p>
+  </header>
+
+  <main class="main-container">
     <!-- City Selector -->
     <form id="cityForm" class="city-form">
       <select id="citySelect"></select>
-      <button type="submit">Check Weather</button>
+      <button type="submit" class="glow-btn">Check Weather</button>
     </form>
 
     <!-- Weather Card -->
-    <div id="weatherCard" class="weather-card" style="display:none;">
-      <h2 id="cityName"></h2>
-      <p class="date" id="date"></p>
+    <div id="weatherCard" class="weather-card hidden">
+      <div class="card-header">
+        <h2 id="cityName"></h2>
+        <p id="date" class="date"></p>
+      </div>
 
       <div class="temp-box">
         <div>Min<br><span id="tempMin"></span></div>
@@ -37,7 +46,7 @@
         <div>🌤️ Sky: <span id="sky"></span></div>
       </div>
 
-      <p class="summary" id="summary"></p>
+      <p id="summary" class="summary"></p>
 
       <div class="comfort">
         <span id="comfort"></span>
@@ -46,7 +55,14 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Map Section -->
+    <div id="map" class="map"></div>
+  </main>
+
+  <footer class="footer">
+    <p>Designed with ❤️ — Responsive Animated Interface</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
