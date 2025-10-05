@@ -1,102 +1,135 @@
-/* script.js - updated: 30 locations added (single sample reading per city) */
+// 🌤️ Weather Comfort Checker JS
+// Futurinx — 2025
 
-const weatherData = {
-  "Kochi, Kerala":     [{ temp: 30, wind: 10, rain: 12, humidity: 75, sky: "Cloudy", coords: [9.9312, 76.2673] }],
-  "Bangalore, India":  [{ temp: 28, wind: 10, rain: 5,  humidity: 65, sky: "Clear", coords: [12.9716, 77.5946] }],
-  "Delhi, India":      [{ temp: 31, wind: 12, rain: 0,  humidity: 40, sky: "Sunny", coords: [28.6139, 77.2090] }],
-  "Mumbai, India":     [{ temp: 31, wind: 15, rain: 20, humidity: 80, sky: "Rainy", coords: [19.0760, 72.8777] }],
-  "Chennai, India":    [{ temp: 33, wind: 9,  rain: 2,  humidity: 70, sky: "Sunny", coords: [13.0827, 80.2707] }],
-  "Hyderabad, India":  [{ temp: 29, wind: 8,  rain: 0,  humidity: 45, sky: "Clear", coords: [17.3850, 78.4867] }],
-  "Pune, India":       [{ temp: 27, wind: 6,  rain: 0,  humidity: 50, sky: "Clear", coords: [18.5204, 73.8567] }],
-  "Ahmedabad, India":  [{ temp: 35, wind: 7,  rain: 0,  humidity: 30, sky: "Hot", coords: [23.0225, 72.5714] }],
-  "Kolkata, India":    [{ temp: 29, wind: 12, rain: 5,  humidity: 70, sky: "Cloudy", coords: [22.5726, 88.3639] }],
-  "Thiruvananthapuram":[{ temp: 29, wind: 9,  rain: 10, humidity: 78, sky: "Cloudy", coords: [8.5241, 76.9366] }],
-  "Kozhikode":         [{ temp: 28, wind: 11, rain: 8,  humidity: 76, sky: "Cloudy", coords: [11.2588, 75.7804] }],
-  "Kannur":            [{ temp: 27, wind: 10, rain: 6,  humidity: 75, sky: "Cloudy", coords: [11.8745, 75.3704] }],
-  "Madurai":           [{ temp: 31, wind: 7,  rain: 1,  humidity: 60, sky: "Sunny", coords: [9.9252, 78.1198] }],
-  "Coimbatore":        [{ temp: 29, wind: 8,  rain: 3,  humidity: 62, sky: "Clear", coords: [11.0168, 76.9558] }],
-  "Kollam":            [{ temp: 28, wind: 9,  rain: 9,  humidity: 77, sky: "Rainy", coords: [8.8932, 76.6141] }],
-
-  /* Global cities */
-  "Dubai, UAE":        [{ temp: 33, wind: 6,  rain: 0,  humidity: 15, sky: "Clear", coords: [25.276987, 55.296249] }],
-  "London, UK":        [{ temp: 11, wind: 18, rain: 10, humidity: 60, sky: "Cloudy", coords: [51.5072, -0.1276] }],
-  "New York, USA":     [{ temp: 22, wind: 12, rain: 5,  humidity: 50, sky: "Sunny", coords: [40.7128, -74.0060] }],
-  "Tokyo, Japan":      [{ temp: 26, wind: 10, rain: 15, humidity: 65, sky: "Rainy", coords: [35.6762, 139.6503] }],
-  "Sydney, Australia": [{ temp: 22, wind: 18, rain: 5,  humidity: 60, sky: "Cloudy", coords: [-33.8688, 151.2093] }],
-  "Toronto, Canada":   [{ temp: 20, wind: 11, rain: 3,  humidity: 50, sky: "Cloudy", coords: [43.6532, -79.3832] }],
-  "Singapore":         [{ temp: 30, wind: 8,  rain: 10, humidity: 80, sky: "Humid", coords: [1.3521, 103.8198] }],
-  "Paris, France":     [{ temp: 18, wind: 9,  rain: 2,  humidity: 65, sky: "Clear", coords: [48.8566, 2.3522] }],
-  "Berlin, Germany":   [{ temp: 16, wind: 12, rain: 4,  humidity: 60, sky: "Cloudy", coords: [52.5200, 13.4050] }],
-  "Los Angeles, USA":  [{ temp: 24, wind: 5,  rain: 0,  humidity: 55, sky: "Sunny", coords: [34.0522, -118.2437] }],
-  "San Francisco, USA":[{ temp: 18, wind: 14, rain: 0,  humidity: 70, sky: "Foggy", coords: [37.7749, -122.4194] }],
-  "Riyadh, Saudi":     [{ temp: 40, wind: 10, rain: 0,  humidity: 10, sky: "Hot", coords: [24.7136, 46.6753] }],
-  "Johannesburg, ZA":  [{ temp: 19, wind: 8,  rain: 0,  humidity: 40, sky: "Clear", coords: [-26.2041, 28.0473] }],
-  "Nairobi, Kenya":    [{ temp: 21, wind: 7,  rain: 2,  humidity: 55, sky: "Clear", coords: [-1.2921, 36.8219] }],
-  "Colombo, Sri Lanka":[{ temp: 29, wind: 10, rain: 12, humidity: 78, sky: "Rainy", coords: [6.9271, 79.8612] }]
-};
-
-/* Comfort logic */
-function comfortLevel(temp, wind, rain) {
-  if (temp > 35) return ["Very Hot 🔥", "hot"];
-  else if (temp < 10) return ["Very Cold ❄️", "cold"];
-  else if (wind > 20) return ["Very Windy 💨", "wind"];
-  else if (rain > 15) return ["Very Wet 🌧️", "wet"];
-  else if (temp > 30 && rain > 5) return ["Very Uncomfortable 😓", "hot"];
-  else return ["Comfortable 🙂", "comfort"];
-}
-
-/* Populate city dropdown */
 const citySelect = document.getElementById("citySelect");
-Object.keys(weatherData).forEach(city => {
+const cityForm = document.getElementById("cityForm");
+const weatherInfo = document.getElementById("weatherInfo");
+
+// 🌍 30 Popular Indian Cities (Add your own)
+const cities = [
+  { name: "Delhi", lat: 28.6139, lon: 77.2090 },
+  { name: "Mumbai", lat: 19.0760, lon: 72.8777 },
+  { name: "Chennai", lat: 13.0827, lon: 80.2707 },
+  { name: "Kolkata", lat: 22.5726, lon: 88.3639 },
+  { name: "Bengaluru", lat: 12.9716, lon: 77.5946 },
+  { name: "Hyderabad", lat: 17.3850, lon: 78.4867 },
+  { name: "Pune", lat: 18.5204, lon: 73.8567 },
+  { name: "Ahmedabad", lat: 23.0225, lon: 72.5714 },
+  { name: "Jaipur", lat: 26.9124, lon: 75.7873 },
+  { name: "Lucknow", lat: 26.8467, lon: 80.9462 },
+  { name: "Indore", lat: 22.7196, lon: 75.8577 },
+  { name: "Surat", lat: 21.1702, lon: 72.8311 },
+  { name: "Chandigarh", lat: 30.7333, lon: 76.7794 },
+  { name: "Bhopal", lat: 23.2599, lon: 77.4126 },
+  { name: "Coimbatore", lat: 11.0168, lon: 76.9558 },
+  { name: "Kochi", lat: 9.9312, lon: 76.2673 },
+  { name: "Trivandrum", lat: 8.5241, lon: 76.9366 },
+  { name: "Nagpur", lat: 21.1458, lon: 79.0882 },
+  { name: "Goa", lat: 15.2993, lon: 74.1240 },
+  { name: "Patna", lat: 25.5941, lon: 85.1376 },
+  { name: "Ranchi", lat: 23.3441, lon: 85.3096 },
+  { name: "Guwahati", lat: 26.1445, lon: 91.7362 },
+  { name: "Varanasi", lat: 25.3176, lon: 82.9739 },
+  { name: "Madurai", lat: 9.9252, lon: 78.1198 },
+  { name: "Mysuru", lat: 12.2958, lon: 76.6394 },
+  { name: "Visakhapatnam", lat: 17.6868, lon: 83.2185 },
+  { name: "Dehradun", lat: 30.3165, lon: 78.0322 },
+  { name: "Shimla", lat: 31.1048, lon: 77.1734 },
+  { name: "Srinagar", lat: 34.0837, lon: 74.7973 },
+  { name: "Agra", lat: 27.1767, lon: 78.0081 },
+];
+
+// 🌎 Initialize Leaflet Map
+const map = L.map("map", {
+  zoomControl: false,
+  attributionControl: false,
+}).setView([20.5937, 78.9629], 5);
+
+// Dark tile style
+L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+  maxZoom: 19,
+}).addTo(map);
+
+// Add all cities to select dropdown
+cities.forEach(city => {
   const opt = document.createElement("option");
-  opt.value = city;
-  opt.textContent = city;
+  opt.value = `${city.lat},${city.lon}`;
+  opt.textContent = city.name;
   citySelect.appendChild(opt);
 });
 
-/* Leaflet map init */
-const map = L.map("map").setView([20, 80], 4);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "© OpenStreetMap"
-}).addTo(map);
-let marker = null;
+// Store markers for glow effect
+let markers = [];
+cities.forEach(c => {
+  const m = L.circleMarker([c.lat, c.lon], {
+    radius: 6,
+    fillColor: "#00c6ff",
+    color: "#00ffff",
+    weight: 1,
+    opacity: 0.9,
+    fillOpacity: 0.8
+  }).addTo(map);
+  m.bindTooltip(c.name, { permanent: false });
+  markers.push(m);
+});
 
-/* Form submit handler */
-document.getElementById("cityForm").addEventListener("submit", e => {
+// 🌀 Animate marker pulse
+function pulseMarker(marker) {
+  let scale = 1;
+  let growing = true;
+  setInterval(() => {
+    scale = growing ? scale + 0.05 : scale - 0.05;
+    if (scale >= 1.5) growing = false;
+    if (scale <= 1) growing = true;
+    marker.setStyle({ radius: 6 * scale });
+  }, 100);
+}
+
+// Weather API (Open-Meteo, free no key)
+async function fetchWeather(lat, lon, cityName) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const w = data.current_weather;
+  updateWeatherUI(cityName, w);
+}
+
+// Update UI
+function updateWeatherUI(city, w) {
+  const date = new Date().toLocaleString();
+  weatherInfo.innerHTML = `
+    <h2>${city}</h2>
+    <p class="date">${date}</p>
+    <div class="temp-box">
+      <div>🌡️ Min: ${(w.temperature - 2).toFixed(1)}°C</div>
+      <div class="avg">Avg: ${w.temperature.toFixed(1)}°C</div>
+      <div>🔥 Max: ${(w.temperature + 2).toFixed(1)}°C</div>
+    </div>
+    <div class="details">
+      <div>💨 Wind: ${w.windspeed} km/h</div>
+      <div>🌦️ Code: ${w.weathercode}</div>
+      <div>🕒 Time: ${w.time.split("T")[1]}</div>
+    </div>
+    <p class="summary">Feels ${w.temperature > 30 ? 'hot' : w.temperature < 20 ? 'cool' : 'pleasant'} today 🌡️</p>
+    <div class="comfort">
+      <span>Comfort Level</span>
+      <div class="bar"><div class="fill ${w.temperature > 30 ? 'hot' : w.temperature < 20 ? 'cold' : 'comfort'}"></div></div>
+    </div>
+  `;
+}
+
+// Handle city form submit
+cityForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  const [lat, lon] = citySelect.value.split(",");
+  const city = citySelect.options[citySelect.selectedIndex].text;
+  map.flyTo([lat, lon], 8, { duration: 1.5 });
 
-  const city = citySelect.value;
-  if (!city || !weatherData[city]) return;
+  // Add pulse effect to selected city
+  markers.forEach(m => m.setStyle({ fillColor: "#00c6ff" }));
+  const selectedMarker = markers.find((m, i) => cities[i].name === city);
+  selectedMarker.setStyle({ fillColor: "#00ff9d" });
+  pulseMarker(selectedMarker);
 
-  /* For flexibility we still pick a random reading if array has >1 items */
-  const arr = weatherData[city];
-  const data = arr[Math.floor(Math.random() * arr.length)];
-
-  const [comfort, comfortClass] = comfortLevel(data.temp, data.wind, data.rain);
-  const date = new Date().toLocaleDateString("en-GB", {
-    day: "2-digit", month: "short", year: "numeric"
-  });
-
-  const card = document.getElementById("weatherCard");
-  card.classList.remove("hidden");
-  document.getElementById("cityName").textContent = city;
-  document.getElementById("date").textContent = date;
-  document.getElementById("tempMin").textContent = `${data.temp - 3}°C`;
-  document.getElementById("tempAvg").textContent = `${data.temp}°C`;
-  document.getElementById("tempMax").textContent = `${data.temp + 3}°C`;
-  document.getElementById("humidity").textContent = data.humidity;
-  document.getElementById("wind").textContent = data.wind;
-  document.getElementById("rain").textContent = data.rain;
-  document.getElementById("sky").textContent = data.sky;
-  document.getElementById("summary").textContent = `Today in ${city}, expect ${data.sky.toLowerCase()} skies with temperature around ${data.temp}°C.`;
-  document.getElementById("comfort").textContent = comfort;
-
-  const bar = document.getElementById("comfortBar");
-  bar.className = "fill " + comfortClass;
-
-  /* Update map position & marker */
-  const [lat, lon] = data.coords;
-  map.flyTo([lat, lon], 6, { duration: 1.2 });
-  if (marker) marker.remove();
-  marker = L.marker([lat, lon]).addTo(map).bindPopup(`<b>${city}</b><br>${comfort}`).openPopup();
+  fetchWeather(lat, lon, city);
 });
