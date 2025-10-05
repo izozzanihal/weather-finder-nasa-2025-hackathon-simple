@@ -9,46 +9,44 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <!-- Map Background -->
   <div id="map"></div>
 
-  <!-- Frosted Glass Weather Container -->
   <div class="container">
     <header>
-      <h1>Weather Comfort Checker</h1>
-      <p>Select a city to view live conditions 🌤️</p>
+      <h1>🌤️ Weather Comfort Checker</h1>
+      <p>Select your city to view live comfort level</p>
     </header>
 
-    <form class="city-form" id="cityForm">
-      <select id="citySelect">
-        <option value="" disabled selected>🌍 Choose your location</option>
+    <form id="cityForm" class="city-form">
+      <select id="citySelect" required>
+        <option value="" disabled selected>🌍 Choose a location</option>
       </select>
-      <button type="submit">Check</button>
+      <button type="submit">Check Weather</button>
     </form>
 
-    <div id="weatherInfo" class="weather-card">
-      <h2>City Name</h2>
-      <p class="date">--</p>
+    <section id="weatherInfo" class="weather-card hidden">
+      <h2 id="cityName">City</h2>
+      <p id="date" class="date">--</p>
+
       <div class="temp-box">
-        <div>🌡️ Min: --°C</div>
-        <div class="avg">Avg: --°C</div>
-        <div>🔥 Max: --°C</div>
+        <div>Min<br><span id="tempMin">--°C</span></div>
+        <div class="avg">Avg<br><span id="tempAvg">--°C</span></div>
+        <div>Max<br><span id="tempMax">--°C</span></div>
       </div>
 
       <div class="details">
-        <div>💨 Wind: -- km/h</div>
-        <div>💧 Humidity: --%</div>
-        <div>🌦️ Condition: --</div>
-        <div>🌅 Feels Like: --°C</div>
+        <div>💧 Humidity: <span id="humidity">--</span>%</div>
+        <div>💨 Wind: <span id="wind">--</span> km/h</div>
+        <div>🌦️ Sky: <span id="sky">--</span></div>
       </div>
 
-      <p class="summary">Weather summary will appear here...</p>
+      <p id="summary" class="summary">--</p>
 
       <div class="comfort">
-        <span>Comfort Level</span>
-        <div class="bar"><div class="fill comfort"></div></div>
+        <span id="comfort">--</span>
+        <div class="bar"><div class="fill" id="comfortBar"></div></div>
       </div>
-    </div>
+    </section>
   </div>
 
   <script src="script.js"></script>
